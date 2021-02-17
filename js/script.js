@@ -36,7 +36,7 @@ const titleClickHandler = function(event){
     console.log(articleToShow);
     /* add class 'active' to the correct article */
     articleToShow.classList.add('active');
-  }
+  };
   
   const links = document.querySelectorAll('.titles a');
   
@@ -66,7 +66,7 @@ function generateTitleLinks(){
     
     /* get the article id */
 
-    const articleId = article.getAttribute('id')
+    const articleId = article.getAttribute('id');
 
     /* find the title element */
 
@@ -89,7 +89,7 @@ function generateTitleLinks(){
   titleList.innerHTML = html;
 
   /* insert link into titleList */
-  
+
   const links = document.querySelectorAll('.titles a');
   for(let link of links) {
     link.addEventListener('click', titleClickHandler);
