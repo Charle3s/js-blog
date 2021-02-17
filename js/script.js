@@ -1,6 +1,7 @@
+
 const titleClickHandler = function(event){
     const clickedElement = this;
-    console.log('Link was clicked!');
+    console.log('clickedElement (with plus): ' + clickedElement);
     event.preventDefault();
 
     
@@ -42,3 +43,34 @@ const titleClickHandler = function(event){
   for(let link of links){
     link.addEventListener('click', titleClickHandler);
   }
+
+  /*     generateTitleLinks      */
+
+  const optArticleSelector = '.post',
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles';
+
+function generateTitleLinks(){
+
+  /* remove contents of titleList */
+  const titleList = querySelector('optTitleListSelector')
+  function clearTitleLinks(){
+    document.querySelector('optiTitleListSelector').innerHTML = '';
+  }
+ 
+
+  /* for each article */
+
+  /* get the article id */
+
+  /* find the title element */
+
+  /* get the title from the title element */
+
+  /* create HTML of the link */
+
+  /* insert link into titleList */
+
+
+
+generateTitleLinks();}
