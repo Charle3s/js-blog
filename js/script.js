@@ -123,9 +123,7 @@ function generateTags(){
     html = html + tagHTML;
     }
     /* insert HTML of all the links into the tags wrapper */
-
     articleTag.insertAdjacentHTML('afterbegin', html);
-
   }
 }
 generateTags();
