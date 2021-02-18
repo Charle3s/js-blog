@@ -72,19 +72,22 @@ function generateTags() {
     let html = '';
     /* get tags from data-tags attribute */
     const articleTags = article.getAttribute('data-tags');
-    console.log(articleTags);
+    // console.log(articleTags);
     /* split tags into array */
     const articleTagsArray = articleTags.split(' ');
     /* START LOOP: for each tag */
-
-    /* generate HTML of the link */
-
-    /* add generated code to html variable */
-
-    /* END LOOP: for each tag */
-
+    for (let tag of articleTagsArray) {
+      /* generate HTML of the link */
+      // console.log(tag);
+      let htmlTag = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
+      console.log(htmlTag);
+      /* add generated code to html variable */
+      html += htmlTag;
+      /* END LOOP: for each tag */
+    }
+    console.log(html);
     /* insert HTML of all the links into the tags wrapper */
-
+    tags.insertAdjacentHTML('beforeend', html);
     /* END LOOP: for every article: */
   }
 }
