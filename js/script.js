@@ -50,7 +50,7 @@ function generateTitleLinks() {
     // console.log(linkHTML);
     /* insert link into titleList */
     // titleList.innerHTML = titleList.innerHTML + linkHTML;
-    titleList.insertAdjacentHTML('afterbegin', linkHTML);
+    titleList.insertAdjacentHTML('beforeend', linkHTML);
   }
 }
 
@@ -95,7 +95,6 @@ function generateTags() {
 generateTags();
 
 function tagClickHandler(event) {
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
   /* prevent default action for this event */
   event.preventDefault();
   /* make new constant named "clickedElement" and give it the value of "this" */
@@ -139,12 +138,12 @@ function tagClickHandler(event) {
 
 function addClickListenersToTags() {
   /* find all links to tags */
-
   /* START LOOP: for each link */
-
-  /* add tagClickHandler as event listener for that link */
-
-  /* END LOOP: for each link */
+  for (const link of links) {
+    /* add tagClickHandler as event listener for that link */
+    link.addEventListener('click', tagClickHandler);
+    /* END LOOP: for each link */
+  }
 }
 
 addClickListenersToTags();
