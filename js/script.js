@@ -32,6 +32,10 @@ const optTitleSelector = '.post-title';
 const optTitleListSelector = '.titles';
 const optArticleTagsSelector = '.post-tags .list';
 const optArticleAuthorSelector = '.post-author';
+const optTagsListSelector = '.tags list';
+const optCloudClassCount = 5,
+  optCloudClassPrefix = 'tag-size-',
+  optAuthorsListSelector = '.authors.list';
 
 const generateTitleLinks = function (customSelector = '') {
   /* remove contents of titleList */
@@ -56,7 +60,7 @@ const generateTitleLinks = function (customSelector = '') {
     html = html + linkHTML;
   }
 
-  console.log(html);
+  // console.log(html);
 
   titleList.innerHTML = html;
 };
@@ -67,6 +71,8 @@ for (let link of links) {
   link.addEventListener('click', titleClickHandler);
 }
 function generateTags() {
+  /* [NEW] create a new variable allTags with an empty array */
+  let allTags = {};
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   /* START LOOP: for every article: */
@@ -90,16 +96,38 @@ function generateTags() {
       // console.log(htmlTag);
       /* add generated code to html variable */
       html += htmlTag + ' ';
-      /* END LOOP: for each tag */
+      /* [NEW] check if this link is NOT already in allTags */
+      if (!allTags[tag]) {
+        /* [NEW] add tag to allTags object */
+        allTags[tag] = 1;
+      } else
+        allTags[tag]++;
     }
+    /* END LOOP: for each tag */
+
     // console.log(html);
     /* insert HTML of all the links into the tags wrapper */
     tags.insertAdjacentHTML('beforeend', html);
     /* END LOOP: for every article: */
   }
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+  const tagsParams = calculateTagsParams(allTags);
+  console.log('tagsParams:', tagsParams);
+  /* [NEW] create variable for all links HTML code */
+  let allTagsHTML = '';
+
+  /* [NEW] START LOOP: for each tag in allTags: */
+  for (let tag in allTags) {
+    /* [NEW] generate code of a link and add it to allTagsHTML */
+    allTagsHTML += '<li><a href="#tag-' + tag + ' (' + allTags[tag] + ')"></a></li>';
+    /* [NEW] END LOOP: for each tag in allTags: */
+  }
+  /*[NEW] add HTML from allTagsHTML to tagList */
+  tagList.insertAdjacentHTML('beforeend', allTagsHTML);
 }
 
-generateTags();
+// generateTags();
 
 function tagClickHandler(event) {
   // console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
@@ -149,21 +177,44 @@ function addClickListenersToTags() {
 }
 
 addClickListenersToTags();
-
-/* generate Authors */
-
+function calculateAuthorsParams(authors) {
+  const params = { max: 0, min: 999999 };
+  for (let author in authors) {
+    console.log(author + ' is used ' + authors[author] + ' times');
+    params.max = Math.max(authors[author], params.max);
+    params.min = Math.min(authors[author], params.min);
+  }
+  return params;
+}
+//calculateAuthorsParams();
 function generateAuthors() {
+  let allAuthors = {};
   const articles = document.querySelectorAll(optArticleSelector);
   for (let article of articles) {
     const authorName = article.querySelector(optArticleAuthorSelector);
     authorName.innerHTML = '';
-    const articleAuthors = article.getAttribute('data-authors');
-    const linkHTML = '<a href="#author-' + articleAuthors + '">' + articleAuthors + '</a>';
+    const author = article.getAttribute('data-authors');
+    const linkHTML = '<a href="#author-' + author + '">' + author + '</a>';
     authorName.insertAdjacentHTML('beforeend', linkHTML);
+    if (!allAuthors[author]) {
+      /* [NEW] add author to allAuthors object */
+      allAuthors[author] = 1;
+    } else {
+      allAuthors[author]++;
+    }
   }
+  console.log(allAuthors);
+  const authorList = document.querySelector('.authors');
+  const authorsParams = calculateAuthorsParams(allAuthors);
+  let allAuthorsHTML = '';
+  for (let author in allAuthors) {
+    const authorLinkHTML = '<li><a href="#author-' + author + ' (' + allAuthors[author] + ')"' + '>' + author + '(' + allAuthors[author] + ')' + '</a></li>';
+    allAuthorsHTML += authorLinkHTML;
+    console.log('authorLinkHTML:', authorLinkHTML);
+  }
+  authorList.insertAdjacentHTML('beforeend', allAuthorsHTML);
 }
 generateAuthors();
-
 function authorsClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
